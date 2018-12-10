@@ -1,6 +1,6 @@
-var root = 'http://comp426.cs.unc.edu:3001/'
+var root = 'http://comp426.cs.unc.edu:3001/';
 
-function selectNumFlights() {
+/*function selectNumFlights() {
 	let num_flights = $('#num-flights').val();
 
 	if (num_flights == 2) {
@@ -15,7 +15,7 @@ function selectNumFlights() {
 		$('#flight3').show();
 		$('#flight4').show();
 	}
-}
+}*/
 
 $(document).ready(function() {
 	$.ajax(root + 'sessions', 
@@ -44,6 +44,8 @@ $(document).ready(function() {
 		flyer_info['flyer_first_name'] = $('#first-name').val();
 		flyer_info['flyer_last_name'] = $('#last-name').val();
 		flyer_info['flyer_email'] = $('#email').val();
+        flyer_info['flyer_age'] = $('#age').val();
+        flyer_info['flyer_gender'] = $('#gender').val();
 
 		// loop through each entered flight
 		for(let i = 1; i <= num_flights; i++) {
@@ -61,7 +63,7 @@ $(document).ready(function() {
 			flyer_info['arr_state_'+i] = $('#arr-state'+i).val();
 
 			// create airport (if it doesn't exist)
-			checkAirport(flyer_info['dep_port_code_'+i], flyer_info['dep_port_'+i]);
+			//checkAirport(flyer_info['dep_port_code_'+i], flyer_info['dep_port_'+i]);
 		}
 
 		// debugging prints
@@ -77,7 +79,7 @@ $(document).ready(function() {
 
 		// create flight itinerary
 		// createItinerary(flyer_info, num_flights);
-
+        createTicket(flyer_info);
 		// grab the weather, map information from 3rd-party APIs
 
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
@@ -155,10 +157,29 @@ $(document).ready(function() {
 	// function createItinerary(f, n) {
 
 	// }
+    
+        function createTicket(f){
+            $.ajax(root+'tickets',{
+                   type:'POST',
+                   xhrFields: {withCredentials:true},
+                    data:{
+                        "ticket": {
+                            'first_name': f['flyer_first_name'],
+                            'last_name': f['flyer_last_name'],
+                            'age': parseInt(f['flyer_age']),
+                            'gender': f['flyer_gender']
+                        }
+                    },
+                    success: (response) => {
+				        console.log(response);
+				    },
+				    error: (j, s, response) => {
+				        console.log(response);
+				    }
+                   });
+        }
 
 });
-
-
 
 
 
