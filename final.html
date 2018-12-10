@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Final Project</title>
+	<script src="http://www.cs.unc.edu/~kmp/comp426fall18/jquery-3.3.1.js"></script>
+	<script src="script.js"></script>
+</head>
+<body>
+	<div class="flight-info" align="center">
+		<h3>Select your number of flights:</h3>
+		<select id="num-flights" onchange="selectNumFlights()">
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<form class="flight-form">
+			<div id="passenger-info">
+				<h3>Passenger info</h3>
+				First name: <input type="text" id="first-name" required><br>
+				Last name: <input type="text" id="last-name" required><br>
+				Email: <input type="text" id="email" required><br>
+			</div>
+			<div id="flight1">
+				<h3>Flight 1</h3>
+				Flight number: <input type="text" id="flight-num1" required><br>
+				Departure time: <input type="text" id="dep-time1" required><br>
+				Arrival time: <input type="text" id="arr-time1" required><br>
+				Seat: <input type="text" id="seat1" required><br>
+				Departing airport name: <input type="text" id="dep-port1"><br>
+				Departing airport code: <input type="text" id="dep-port-code1" required><br>
+				Departing city: <input type="text" id="dep-city1" required><br>
+				Departing state: <input type="text" id="dep-state1" required><br>
+				Arriving airport code: <input type="text" id="arr-port1" required><br>
+				Arriving city: <input type="text" id="arr-city1" required><br>
+				Arriving state: <input type="text" id="arr-state1" required><br>
+			</div>
+			<div id="flight2">
+				<h3>Flight 2</h3>
+				Flight number: <input type="text" id="flight-num2" required><br>
+				Departure time: <input type="text" id="dep-time2" required><br>
+				Arrival time: <input type="text" id="arr-time2" required><br>
+				Seat: <input type="text" id="seat2" required><br>
+				Departing airport name: <input type="text" id="dep-port2"><br>
+				Departing airport code: <input type="text" id="dep-port-code2" required><br>
+				Departing city: <input type="text" id="dep-city2" required><br>
+				Departing state: <input type="text" id="dep-state2" required><br>
+				Arriving airport: <input type="text" id="arr-port2" required><br>
+				Arriving city: <input type="text" id="arr-city2" required><br>
+				Arriving state: <input type="text" id="arr-state2" required><br>
+			</div>
+			<div id="flight3" hidden>
+				<h3>Flight 3</h3>
+				Flight number: <input type="text" id="flight-num3"><br>
+				Departure time: <input type="text" id="dep-time3"><br>
+				Arrival time: <input type="text" id="arr-time3"><br>
+				Seat: <input type="text" id="seat3"><br>
+				Departing airport name: <input type="text" id="dep-port3"><br>
+				Departing airport code: <input type="text" id="dep-port-code3" required><br>
+				Departing city: <input type="text" id="dep-city3"><br>
+				Departing state: <input type="text" id="dep-state3"><br>
+				Arriving airport code: <input type="text" id="arr-port3"><br>
+				Arriving city: <input type="text" id="arr-city3"><br>
+				Arriving state: <input type="text" id="arr-state3"><br>
+			</div>
+			<div id="flight4" hidden>
+				<h3>Flight 4</h3>
+				Flight number: <input type="text" id="flight-num4"><br>
+				Departure time: <input type="text" id="dep-time4"><br>
+				Arrival time: <input type="text" id="arr-time4"><br>
+				Seat: <input type="text" id="seat4"><br>
+				Departing airport name: <input type="text" id="dep-port4"><br>
+				Departing airport code: <input type="text" id="dep-port-code4" required><br>
+				Departing city: <input type="text" id="dep-city4"><br>
+				Departing state: <input type="text" id="dep-state4"><br>
+				Arriving airport code: <input type="text" id="arr-port4"><br>
+				Arriving city: <input type="text" id="arr-city4"><br>
+				Arriving state: <input type="text" id="arr-state4"><br>
+			</div>
+
+			<button type="button" id="submit-flight-info">Submit</button>
+		</form>
+
+	</div>
+</body>
+</html>
