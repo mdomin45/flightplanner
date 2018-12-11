@@ -387,17 +387,22 @@ $(document).ready(function() {
                     }
                 },
                 success: (response) => {
+                	console.log('woohoo');
 			        createReviewMode(f);
 			    },
 			    error: (j, s, response) => {
 			        console.log(response);
 			    }
-               });
+        });
     }
 
 });
 
 function createReviewMode(f) {
+	// variables used in the function
+	let dep_place = {};
+	let arr_place = {};
+
 	// grab the flight that the user input
 	let flight_url = root + 'flights?filter[departs_at]' + f['dep_time'] + '&filter[arrives_at]=' + f['arr_time'] + '&filter=[number]=' + f['flight_number'];
 	$.ajax(flight_url, {
@@ -427,8 +432,9 @@ function createReviewMode(f) {
 		type: 'GET',
 		datatype: 'json',
 		success: function(data) {
-			let arr_city = data[0]['address_components'][4]['long_name'];
-			let arr_state = data[0]['address_components'][6]['long_name'];
+			// console.log(data.results[0]['address_components'][4]['long_name']);
+			let arr_city = data.results[0]['address_components'][4]['long_name'];
+			let arr_state = data.results[0]['address_components'][6]['long_name'];
 			mode_two.append('<h3>Arrival city: ' + arr_city + '</h3>');
 			mode_two.append('<h3>Arrival state: ' + arr_state + '</h3>');
 		},
@@ -456,10 +462,10 @@ function createReviewMode(f) {
 		type: 'GET',
 		datatype: 'json',
 		success: function(data) {
-			let dep_city = data[0]['address_components'][4]['long_name'];
-			let dep_state = data[0]['address_components'][6]['long_name'];
-			mode_two.append('<h3>Departure city: ' + arr_city + '</h3>');
-			mode_two.append('<h3>Departure state: ' + arr_state + '</h3>');
+			let dep_city = data.results[0]['address_components'][4]['long_name'];
+			let dep_state = data.results[0]['address_components'][6]['long_name'];
+			mode_two.append('<h3>Departure city: ' + dep_city + '</h3>');
+			mode_two.append('<h3>Departure state: ' + dep_state + '</h3>');
 		},
 		error: (j, s, error) => {
 			console.log(error);
