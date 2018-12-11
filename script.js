@@ -2,22 +2,6 @@ var root = 'http://comp426.cs.unc.edu:3001/';
 var dep_port_id;
 var arr_port_id;
 
-/*function selectNumFlights() {
-	let num_flights = $('#num-flights').val();
-
-	if (num_flights == 2) {
-		$('#flight3').hide();
-		$('#flight4').hide();
-	}
-	else if (num_flights == 3) {
-		$('#flight3').show();
-		$('#flight4').hide();
-	}
-	else if (num_flights == 4) {
-		$('#flight3').show();
-		$('#flight4').show();
-	}
-}*/
 
 function creating_options(){
     //age dropdown
@@ -55,33 +39,34 @@ $(document).ready(function() {
 		// collect the input data and assign variables
 		let num_flights = $('#num-flights').val();
 		let flyer_info = {}; // dictionary containing all information given in the form
+        
+        //passenger info
 		flyer_info['flyer_first_name'] = $('#first-name').val();
 		flyer_info['flyer_last_name'] = $('#last-name').val();
 		flyer_info['flyer_email'] = $('#email').val();
         flyer_info['flyer_age'] = $('#age').val();
         flyer_info['flyer_gender'] = $('#gender').val();
+        
+        //flight info
+        flyer_info['flight_number'] = $('#flight-num').val();
+        flyer_info['dep_time'] = $('#dep-time').val();
+        flyer_info['arr_time'] = $('#arr-time').val();
+        flyer_info['seat'] = $('#seat').val();
+        flyer_info['dep_port'] = $('#dep-port').val();
+        flyer_info['dep_port_code'] = $('#dep-port-code').val();
+        flyer_info['dep_city'] = $('#dep-city').val();
+        flyer_info['dep_state'] = $('#dep-state').val();
+        flyer_info['arr_port'] = $('#arr-port').val();
+        flyer_info['arr_port_code'] = $('#arr-port-code').val();
+        flyer_info['arr_city'] = $('#arr-city').val();
+        flyer_info['arr_state'] = $('#arr-state').val();
 
-		// loop through each entered flight
-		for(let i = 1; i <= num_flights; i++) {
-			flyer_info['flight_'+i+'_number'] = $('#flight-num'+i).val();
-			flyer_info['dep_time_'+i] = $('#dep-time'+i).val();
-			flyer_info['arr_time_'+i] = $('#arr-time'+i).val();
-			flyer_info['seat_'+i] = $('#seat'+i).val();
-			flyer_info['dep_port_'+i] = $('#dep-port'+i).val();
-			flyer_info['dep_port_code_'+i] = $('#dep-port-code'+i).val();
-			flyer_info['dep_city_'+i] = $('#dep-city'+i).val();
-			flyer_info['dep_state_'+i] = $('#dep-state'+i).val();
-			flyer_info['arr_port_'+i] = $('#arr-port'+i).val();
-			flyer_info['arr_port_code_'+i] = $('#arr-port-code'+i).val();
-			flyer_info['arr_city_'+i] = $('#arr-city'+i).val();
-			flyer_info['arr_state_'+i] = $('#arr-state'+i).val();
-
-			// create airport (if it doesn't exist)
+			
             
-		}
-       
+		
+       // create airport (if it doesn't exist)
         checkAirport(flyer_info);
-            
+        
 
 		// debugging prints
 		str = JSON.stringify(flyer_info); // creates a loggable string from the dict
@@ -96,7 +81,7 @@ $(document).ready(function() {
 
 		// create flight itinerary
 		// createItinerary(flyer_info, num_flights);
-        //createTicket(flyer_info);
+        createTicket(flyer_info);
 		// grab the weather, map information from 3rd-party APIs
 
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
@@ -108,7 +93,7 @@ $(document).ready(function() {
     //c is the code, n is the name, 1 is departure 2 is arrival)
     //check if airport for departure exists, if not create one, then check if airport of arrival exists, if not create one, take airport ids and make flight
 	function checkAirport(f) {
-		$.ajax(root + 'airports?filter[code]='+f['dep_port_code_1'], {
+		$.ajax(root + 'airports?filter[code]='+f['dep_port_code'], {
 			type: 'GET',
 			datatype: 'json',
             cache: false,
@@ -124,13 +109,13 @@ $(document).ready(function() {
 						xhrFields: {withCredentials: true},
 						data: {
 							'airport': {
-								'name': f['dep_port_1'],
-								'code': f['dep_port_code_1']
+								'name': f['dep_port'],
+								'code': f['dep_port_code']
 							}
 						},
 						success: (response) => {
 							console.log(response);
-                            $.ajax(root+'airports?filter[code]='+f['arr_port_code_1'],{
+                            $.ajax(root+'airports?filter[code]='+f['arr_port_code'],{
                                 type: 'GET',
                                 datatype: 'json',
                                 cache: false,
@@ -145,8 +130,8 @@ $(document).ready(function() {
                                             xhrFields: {withCredentials: true},
                                             data: {
                                                 'airport': {
-                                                    'name': f['arr_port_1'],
-                                                    'code': f['arr_port_code_1']
+                                                    'name': f['arr_port'],
+                                                    'code': f['arr_port_code']
                                                 }
 						                   },
                                             success: (response2)=>{
@@ -175,7 +160,7 @@ $(document).ready(function() {
 					});
 				}
 				else {
-					$.ajax(root+'airports?filter[code]='+f['arr_port_code_1'],{
+					$.ajax(root+'airports?filter[code]='+f['arr_port_code'],{
                                 type: 'GET',
                                 datatype: 'json',
                                 cache: false,
@@ -190,8 +175,8 @@ $(document).ready(function() {
                                             xhrFields: {withCredentials: true},
                                             data: {
                                                 'airport': {
-                                                    'name': f['arr_port_1'],
-                                                    'code': f['arr_port_code_1']
+                                                    'name': f['arr_port'],
+                                                    'code': f['arr_port_code']
                                                 }
 						                   },
                                             success: (response2)=>{
@@ -233,9 +218,9 @@ $(document).ready(function() {
              xhrFields: {withCredentials:true},
              data:{
                 'flight':{
-                    'departs_at':f['dep_time_1'],
-                    'arrives_at':f['arr_time_1'],
-                    'number': f['flight_1_number'],
+                    'departs_at':f['dep_time'],
+                    'arrives_at':f['arr_time'],
+                    'number': f['flight_number'],
                     'departure_id':dep_port_id,
                     'arrival_id': arr_port_id
                 }
@@ -247,25 +232,6 @@ $(document).ready(function() {
 
 	 }
 
-    // c is the airport id
-/*	 function getAirportID(c) {
-	 	$.ajax(root + 'airports?filter[code]='+c, {
-	 		type: 'GET',
-	 		datatype: 'json',
-	 		xhrFields: {withCredentials: true},
-	 		success: (response) => {
-	 			console.log(response);
-	 			return response.data.id;
-	 		},
-	 		error: (j, s, response) => {
-	 			console.log(response);
-	 		}
-	 	});
-	 }*/
-
-	// function createItinerary(f, n) {
-
-	// }
     
         function createTicket(f){
             $.ajax(root+'tickets',{
