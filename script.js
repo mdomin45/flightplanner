@@ -1,6 +1,8 @@
 var root = 'http://comp426.cs.unc.edu:3001/';
 var google_key = 'AIzaSyDIxU9xHMPzFMlWoJq9sIvLYhlfv1KSH5g';
 var iata_key ='7696a162-f86a-4dfe-898b-93b5320c6818'
+var mode_one;
+var mode_two;
 var map;
 var dep_port_id;
 var arr_port_id;
@@ -80,6 +82,7 @@ function findCoords(x){
 			place['lat'] = response.results[0]['geometry']['location']['lat'];
 			place['lng'] = response.results[0]['geometry']['location']['lng'];
 			var marker = new google.maps.Marker({position: place, map: map});
+           
 		}
 	});
 }
@@ -174,10 +177,11 @@ $(document).ready(function() {
         }
     }
     
-    
-    
-    
     //end test code for autocomplete
+    
+    //Holds html elements for form
+    mode_one = $('.mode_one');
+    mode_two = $('.mode_two');
 
 	// user submits the flight info
 	$('#submit-flight-info').click(function() {
@@ -210,26 +214,20 @@ $(document).ready(function() {
             
 		
        // create airport (if it doesn't exist)
-        checkAirport(flyer_info);
+        //checkAirport(flyer_info);
         
 
 		// debugging prints
-		str = JSON.stringify(flyer_info); // creates a loggable string from the dict
-		console.log(str); // logging the dict
+		//str = JSON.stringify(flyer_info); // creates a loggable string from the dict
+		//console.log(str); // logging the dict
 
-		// create airports (if they don't exist)
-		// checkAirports(flyer_info, num_flights);
-		// createAirports(flyer_info, num_flights);
-
-		// create flight instances
-		// createFlights(flyer_info, num_flights);
-
-		// create flight itinerary
-		// createItinerary(flyer_info, num_flights);
-        createTicket(flyer_info);
+        //createTicket(flyer_info);
 		// grab the weather, map information from 3rd-party APIs
 
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
+        mode_one.hide();
+        mode_two.show();
+        
 
 		// allow the user to return to the "create itinerary" mode (likely button)
 
