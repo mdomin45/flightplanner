@@ -2,6 +2,10 @@
 <html>
 <head>
 	<title>Final Project</title>
+	
+	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:700" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel='stylesheet' type='text/css' href="style.css">
 	<script src="http://www.cs.unc.edu/~kmp/comp426fall18/jquery-3.3.1.js"></script>
 	<script src="script.js"></script>
 	<script src="https://apis.google.com/js/api.js"></script>
@@ -10,40 +14,48 @@
     </script>
 </head>
 <body>
-	<div class="flight-info mode_one" align="center" style="width: 100%; height: 100%; overflow: hidden;">
-		<h3>Welcome!</h3>
+	<div class="flight-info mode_one">
+		<h1>Flight Planner</h1>
+		<div class='form-holder'>
 		<form class="flight-form">
 			<div id="passenger-info">
-				<h3>Passenger info</h3>
-				First name: <input type="text" id="first-name" required><br>
-				Last name: <input type="text" id="last-name" required><br>
-				Email: <input type="text" id="email" required><br>
-				Age: <select id='age'></select><br>
-				Gender: <input type="text" id="gender" required><br>
+				<h3 id='passenger-title'>Passenger Info</h3>
+				<p id='one'>First Name:</p><input type="text" id="first-name" required><br>
+				<p id='two'>Last Name:</p><input type="text" id="last-name" required><br>
+				<p id='three'>Email:</p><input type="text" id="email" required><br>
+				<p id='four'>Age:</p><select id='age'></select><br>
+				<p id='five'>Gender:</p><input type="text" id="gender" required><br>
 			</div>
 			<div id="flight">
-				<h3>Your Flight</h3>
-				Flight number: <input type="text" id="flight-num" required><br>
-				Departure time: <input type="time" id="dep-time" required><br>
-				Arrival time: <input type="time" id="arr-time" required><br>
-				Arrival date: <input type="date" id="arr-date" value="2018-01-01"><br>
-				Departing airport name: <input type="text" id="dep-port"><br>
+				<h3 id='flight-title'>Your Flight</h3>
+				<p id='six'>Flight Number:</p><input type="text" id="flight-num" required><br>
+				<p id='seven'>Departure Time:</p><input type="time" id="dep-time" required><br>
+				<p id='eight'>Arrival Time:</p><input type="time" id="arr-time" required><br>
+<!--
+				<p id='nine'>Arrival Date</p><input type="date" id="arr-date" value="2018-01-01"><br>
+-->
+				<p id='nine'>Departing Airport Name:</p><input type="text" id="dep-port"><br>
 				<!---Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>--->
-				Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>
+				<p id='ten'>Departing Airport Code:</p><input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>
 				<!--Extra code: <input type='text' name='name' id='name_input'  onblur='validateCode(this)'>-->
 				            <datalist id='huge_list'>
 				                
 				            </datalist>
-				Arriving airport name: <input type="text" id="arr-port"><br>
+				<p id='eleven'>Arriving Airport Name:</p><input type="text" id="arr-port"><br>
 				<!--Arriving airport code: <input type="text" id="arr-port-code" onblur="validateCode(this)" required><br>-->
-				Arriving airport code: <input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" required><br>
+				<p id='twelve'>Arriving Airport Code:</p><input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" required><br>
+				<button type="button" id="submit-flight-info">Submit</button><br>
 			</div>
-			<button type="button" id="submit-flight-info">Submit</button><br>
+			
 		</form>
-		<div id="map" style="clear: both; height: 500px; width: 600px; top: 50px;"></div>
+		</div>
+		
 	</div>
-	<div class='infographic mode_two'align="center" style="width: 100%; height: 100%; overflow: hidden; display: none;">
-	<h3>Your Flight from</h3>
+	
+	<div class='infographic mode_two' style='display:none;'>
+	<h3>Your Flight from </h3>
+	
+	<div id="map" style="clear: both; height: 500px; width: 600px; top: 50px;"></div>
 	</div>
 
 </body>

@@ -1,7 +1,126 @@
+body{
+    margin:0 auto;
+    background-image: url(images/airplane.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height:100vh;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
 .flight-info {
 	align-content: center;
+    margin-top:3em;
 }
 
-#map {
-	height: 100%;;
+.flight-info h1{
+    text-align: center;
+    color:white;
+    font-size: 10vh;
+    margin-bottom: 0;
+}
+.form-holder{
+    width:50vw;
+    margin:0 auto;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius:1em;
+    padding:1vw;
+    font-size:1.5vw;
+}
+
+input,select, #submit-flight-info{
+    border-radius:1em; 
+    border-style:none;
+    margin:auto 0;
+    height:60%;
+    text-align: center;
+    margin-right:1em;
+}
+select{
+    width:50%;
+    padding-left:7vw;
+}
+
+.flight-info h3{
+    text-align: center;
+}
+p{
+    text-align: right;
+    margin-right:1vw;
+}
+
+#passenger-info{
+    display:grid;
+    grid-template-columns:4fr 10fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 'passenger-title passenger-title'
+                         'one first'
+                         'two last'
+                         'three email'
+                         'four age'
+                         'five gender';
+}
+#flight{
+    display:grid;
+    grid-template-columns:4fr 10fr;
+    grid-template-rows:1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas:'flight-title flight-title'
+                         'six fnum'
+                         'seven dep-t'
+                         'eight arr-t'
+                         'nine dep-p'
+                         'ten dep-c'
+                         'eleven arr-p'
+                         'twelve arr-c'
+                         'submit submit';
+}
+#passenger-title{grid-area: passenger-title;}
+#first-name{grid-area:first;}
+#last-name{grid-area:last;}
+#email{grid-area:email;}
+#age{grid-area:age;}
+#gender{grid-area:gender;}
+#one{grid-area:one;}
+#two{grid-area:two;}
+#three{grid-area:three;}
+#four{grid-area:four;}
+#five{grid-area:five;}
+#flight-title{grid-area:flight-title}
+#flight-num{grid-area:fnum;}
+#dep-time{grid-area:dep-t;}
+#arr-time{grid-area:arr-t;}
+#dep-port{grid-area:dep-p;}
+#dep-port-code{grid-area:dep-c;}
+#arr-port{grid-area:arr-p;}
+#arr-port-code{grid-area:arr-c;}
+#six{grid-area:six;}
+#seven{grid-area:seven;}
+#eight{grid-area:eight;}
+#nine{grid-area:nine;}
+#ten{grid-area:ten;}
+#eleven{grid-area:eleven;}
+#twelve{grid-area:twelve;}
+
+
+#submit-flight-info{
+    grid-area:submit;
+    background-color: red;
+    color:white;
+    font-size:3vw;
+    margin:0 auto;
+    width:90%;
+    box-shadow: 3px 5px black;
+}
+#submit-flight-info:hover{
+    background-color: coral;
+}
+
+
+@media (max-width:900px){
+    .form-holder{width:80%;}
+    .body{width:100%;}
+    .flight-info h1{
+        font-size:9vh;
+    }
+    .form-holder{font-size:2vh;}
+    
 }
