@@ -13,9 +13,6 @@ function initMap() {
       	zoom: 4, 
       	center: start
       });
-
-  // The marker, positioned at Uluru
-  // var marker = new google.maps.Marker({position: uluru, map: map});
 }
 
 
@@ -31,6 +28,25 @@ function creating_options(){
 
 function findDepCoords() {
 	let airport_code = $('#dep-port-code').val();
+	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
+
+	console.log(url);
+
+	$.ajax(url, {
+		type: 'GET',
+		datatype: 'json',
+		success: (response) => {
+			console.log(response.results);
+			let place = {};
+			place['lat'] = response.results[0]['geometry']['location']['lat'];
+			place['lng'] = response.results[0]['geometry']['location']['lng'];
+			var marker = new google.maps.Marker({position: place, map: map});
+		}
+	});
+}
+
+function findArrCoords() {
+	let airport_code = $('#arr-port-code').val();
 	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
 
 	console.log(url);
