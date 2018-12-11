@@ -152,7 +152,7 @@ $(document).ready(function() {
                                             success: (response2)=>{
                                                 console.log(response2);
                                                 //create flights using response and response2
-                                                
+                                                createFlights(response, response2, f);
                                             },
                                             
                                             error: (j, s, error) => {
@@ -161,6 +161,7 @@ $(document).ready(function() {
                                         });
                                     } else{
                                         //create flights using response and data2
+                                        createFlights(response, data2, f);
                                     }
                                 },
                                 error: (j, s, error) => {
