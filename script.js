@@ -207,9 +207,18 @@ $(document).ready(function() {
 	}
 
 	 function createFlights(dep_id, arr_id, f) {
+         let dep_port_id, arr_port_id;
          //grab airport IDs
-         let dep_port_id = dep_id[0]['id'];
-         let arr_port_id = arr_id[0]['id'];
+         if(dep_id[0]==undefined){
+             dep_port_id = dep_id['id'];
+         } else{
+             dep_port_id = dep_id[0]['id'];
+         }
+         if(arr_id[0]==undefined){
+             arr_port_id= arr_id['id'];
+         } else{
+             arr_port_id = arr_id[0]['id'];
+         }
 
          console.log(dep_port_id, arr_port_id);
          $.ajax(root+'flights',{
