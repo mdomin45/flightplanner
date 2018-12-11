@@ -196,6 +196,8 @@ $(document).ready(function() {
 						                   },
                                             success: (response2)=>{
                                                 console.log(response2);
+                                                //create flights using data and response 2
+                                                createFlights(data, response2, f);
                                             },
                                             
                                             error: (j, s, error) => {
