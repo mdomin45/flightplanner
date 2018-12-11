@@ -17,7 +17,19 @@ var root = 'http://comp426.cs.unc.edu:3001/';
 	}
 }*/
 
+function creating_options(){
+    //age dropdown
+    for(var i = 0; i<=120; i++){
+        var opt = document.createElement('option');
+        opt.value=i;
+        opt.innerHTML=i;
+        document.getElementById('age').appendChild(opt);
+    }
+}
+
 $(document).ready(function() {
+    //creates age options, 0-100
+    creating_options();
 	$.ajax(root + 'sessions', 
 		{
 		type: 'POST',
