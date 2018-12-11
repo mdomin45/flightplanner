@@ -124,3 +124,10 @@ p{
     .form-holder{font-size:2vh;}
     
 }
+
+.mode_two h3 {
+	color: white;
+	border: 1px black;
+	position: relative;
+	top: 30px;
+}
