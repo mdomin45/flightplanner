@@ -10,7 +10,7 @@
     </script>
 </head>
 <body>
-	<div class="flight-info mode_one" align="center" style="width: 100%; height: 100%; overflow: hidden;">
+	<div class="flight-info" align="center" style="width: 100%; height: 100%; overflow: hidden;">
 		<h3>Welcome!</h3>
 		<form class="flight-form">
 			<div id="passenger-info">
@@ -29,27 +29,18 @@
 				Arrival date: <input type="date" id="arr-date" value="2018-01-01"><br>
 				Departing airport name: <input type="text" id="dep-port"><br>
 				<!---Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>--->
-				Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" maxlength="3" required><br>
+				Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>
 				<!--Extra code: <input type='text' name='name' id='name_input'  onblur='validateCode(this)'>-->
 				            <datalist id='huge_list'>
 				                
 				            </datalist>
-				Departing city: <input type="text" id="dep-city" required><br>
-				Departing state: <input type="text" id="dep-state" required><br>
 				Arriving airport name: <input type="text" id="arr-port"><br>
 				<!--Arriving airport code: <input type="text" id="arr-port-code" onblur="validateCode(this)" required><br>-->
-				Arriving airport code: <input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" maxlength="3" required><br>
-				Arriving city: <input type="text" id="arr-city" required><br>
-				Arriving state: <input type="text" id="arr-state" required><br>
+				Arriving airport code: <input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" required><br>
 			</div>
-			<button type="button" id="submit-flight-info">Submit</button>
+			<button type="button" id="submit-flight-info">Submit</button><br>
 		</form>
-		<div id="map" style="clear: both; height: 400px;"></div>
-	</div>
-	<div class="infographic mode_two" align="center" style="width: 100%; height:100%; overflow:hidden; display:none;">
-	    
-	    <h1>Your flight from: </h1>
-	    
+		<div id="map" style="clear: both; height: 500px; width: 600px; top: 50px;"></div>
 	</div>
 
 </body>

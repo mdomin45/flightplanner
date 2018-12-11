@@ -32,9 +32,7 @@ function creating_options(){
 /*function findDepCoords() {
 	let airport_code = $('#dep-port-code').val();
 	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
-
 	console.log(url);
-
 	$.ajax(url, {
 		type: 'GET',
 		datatype: 'json',
@@ -47,13 +45,10 @@ function creating_options(){
 		}
 	});
 }
-
 function findArrCoords() {
 	let airport_code = $('#arr-port-code').val();
 	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
-
 	console.log(url);
-
 	$.ajax(url, {
 		type: 'GET',
 		datatype: 'json',
@@ -124,6 +119,7 @@ $(document).ready(function() {
 		data: {
 			'user': {
 				'username': 'msdoming',
+				'password': 'spencer'
 			}
 		},
 		success: (response) => {
@@ -133,6 +129,8 @@ $(document).ready(function() {
 			console.log(error);
 		}
 	});
+
+	creating_options();
     
     //Test code for autocomplete
     window.addEventListener('load', function(){ 
@@ -203,15 +201,8 @@ $(document).ready(function() {
         flyer_info['seat'] = $('#seat').val();
         flyer_info['dep_port'] = $('#dep-port').val();
         flyer_info['dep_port_code'] = $('#dep-port-code').val();
-        flyer_info['dep_city'] = $('#dep-city').val();
-        flyer_info['dep_state'] = $('#dep-state').val();
         flyer_info['arr_port'] = $('#arr-port').val();
         flyer_info['arr_port_code'] = $('#arr-port-code').val();
-        flyer_info['arr_city'] = $('#arr-city').val();
-        flyer_info['arr_state'] = $('#arr-state').val();
-
-			
-            
 		
        // create airport (if it doesn't exist)
         //checkAirport(flyer_info);
@@ -378,7 +369,7 @@ $(document).ready(function() {
                 }
             },
              success: (response)=>{
-                 console.log(response);
+             	createTicket(f);
              }
          })
 
@@ -398,7 +389,7 @@ $(document).ready(function() {
                         }
                     },
                     success: (response) => {
-				        console.log(response);
+				        createReviewMode(f);
 				    },
 				    error: (j, s, response) => {
 				        console.log(response);
@@ -407,3 +398,7 @@ $(document).ready(function() {
         }
 
 });
+
+function createReviewMode(f) {
+	$('body').children().each().hide();
+}
