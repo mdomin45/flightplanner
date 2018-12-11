@@ -1,5 +1,6 @@
 var root = 'http://comp426.cs.unc.edu:3001/';
 var google_key = 'AIzaSyDIxU9xHMPzFMlWoJq9sIvLYhlfv1KSH5g';
+var iata_key ='7696a162-f86a-4dfe-898b-93b5320c6818'
 var map;
 var dep_port_id;
 var arr_port_id;
@@ -26,7 +27,7 @@ function creating_options(){
     }
 }
 
-function findDepCoords() {
+/*function findDepCoords() {
 	let airport_code = $('#dep-port-code').val();
 	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
 
@@ -62,6 +63,54 @@ function findArrCoords() {
 			var marker = new google.maps.Marker({position: place, map: map});
 		}
 	});
+}*/
+
+function findCoords(x){
+    let airport_code = x;
+	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
+
+	console.log(url);
+
+	$.ajax(url, {
+		type: 'GET',
+		datatype: 'json',
+		success: (response) => {
+			console.log(response.results);
+			let place = {};
+			place['lat'] = response.results[0]['geometry']['location']['lat'];
+			place['lng'] = response.results[0]['geometry']['location']['lng'];
+			var marker = new google.maps.Marker({position: place, map: map});
+		}
+	});
+}
+//change border of input box
+function codeinputBox(id, bool){
+    if(bool){
+        $('#'+id).css('border-color','initial');
+    }else{
+        alert('This is not a valid airport code');
+        $('#'+id).css('border-color','red');
+    }
+}
+function validateCode(x){
+    let airport_code=x.value;
+    let url='https://cors-anywhere.herokuapp.com/'+'http://iatacodes.org/api/v6/airports?api_key=7696a162-f86a-4dfe-898b-93b5320c6818&lang=en&code='+airport_code;
+    
+    console.log(url);
+    
+    $.ajax(url,{
+        type:'GET',
+        datatype:'json',
+        success:(data)=>{
+            console.log(data);
+            if(data['response'].length > 0){
+                codeinputBox(x.getAttribute('id'), true);
+                findCoords(x.value);
+            } else{
+                codeinputBox(x.getAttribute('id'), false);
+            }
+        }
+    });
 }
 
 $(document).ready(function() {
@@ -72,7 +121,6 @@ $(document).ready(function() {
 		data: {
 			'user': {
 				'username': 'msdoming',
-				'password': 'spencer'
 			}
 		},
 		success: (response) => {
@@ -82,6 +130,54 @@ $(document).ready(function() {
 			console.log(error);
 		}
 	});
+    
+    //Test code for autocomplete
+    window.addEventListener('load', function(){ 
+    document.getElementById('dep-port-code').addEventListener("keyup", function(event){hinter(event)});
+    document.getElementById('arr-port-code').addEventListener("keyup", function(event){hinter(event)});
+    
+    window.hinterXHR = new XMLHttpRequest();
+    
+    
+    });
+    
+    function hinter(event){
+        var input=event.target;
+        //datalist
+        var huge_list = document.getElementById('huge_list');
+        var min_characters = 1;
+        
+        if(input.value.length<=min_characters){return;
+        } else{
+            window.hinterXHR.abort();
+            window.hinterXHR.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var ex = JSON.parse(this.responseText);
+                    console.log(ex);
+                    if(ex['response']==undefined){
+                        return;
+                    }
+                    var response = ex['response']['airports'];
+                    
+                    huge_list.innerHTML="";
+                    
+                    response.forEach(function(item){
+                                     var option = document.createElement('option');
+                                     option.value = item['code'];
+                                     huge_list.appendChild(option);
+                                     });
+                }
+            };
+            
+            window.hinterXHR.open("GET", 'https://cors-anywhere.herokuapp.com/'+'http://iatacodes.org/api/v6/autocomplete?api_key=7696a162-f86a-4dfe-898b-93b5320c6818&lang=en&query='+input.value, true);
+            window.hinterXHR.send()
+        }
+    }
+    
+    
+    
+    
+    //end test code for autocomplete
 
 	// user submits the flight info
 	$('#submit-flight-info').click(function() {
