@@ -1,3 +1,7 @@
 .flight-info {
 	align-content: center;
 }
+
+#map {
+	height: 100%;;
+}

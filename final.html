@@ -4,9 +4,13 @@
 	<title>Final Project</title>
 	<script src="http://www.cs.unc.edu/~kmp/comp426fall18/jquery-3.3.1.js"></script>
 	<script src="script.js"></script>
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIxU9xHMPzFMlWoJq9sIvLYhlfv1KSH5g&callback=initMap">
+    </script>
 </head>
 <body>
-	<div class="flight-info" align="center">
+	<div class="flight-info" align="center" style="width: 100%; height: 100%; overflow: hidden;">
 		<h3>Welcome!</h3>
 		<form class="flight-form">
 			<div id="passenger-info">
@@ -24,7 +28,7 @@
 				Arrival time: <input type="time" id="arr-time" required><br>
 				Arrival date: <input type="date" id="arr-date" value="2018-01-01"><br>
 				Departing airport name: <input type="text" id="dep-port"><br>
-				Departing airport code: <input type="text" id="dep-port-code" required><br>
+				Departing airport code: <input type="text" id="dep-port-code" onblur="findDepCoords()"required><br>
 				Departing city: <input type="text" id="dep-city" required><br>
 				Departing state: <input type="text" id="dep-state" required><br>
 				Arriving airport name: <input type="text" id="arr-port"><br>
@@ -34,7 +38,8 @@
 			</div>
 			<button type="button" id="submit-flight-info">Submit</button>
 		</form>
-
+		<div id="map" style="clear: both; height: 400px;"></div>
 	</div>
+
 </body>
 </html>

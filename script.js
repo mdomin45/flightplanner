@@ -1,6 +1,22 @@
 var root = 'http://comp426.cs.unc.edu:3001/';
+var google_key = 'AIzaSyDIxU9xHMPzFMlWoJq9sIvLYhlfv1KSH5g';
+var map;
 var dep_port_id;
 var arr_port_id;
+
+function initMap() {
+  // The location of center of US
+  var start = {lat: 39.8333333, lng: -98.585522};
+  // The map, centered on US
+  map = new google.maps.Map(
+      document.getElementById('map'), {
+      	zoom: 4, 
+      	center: start
+      });
+
+  // The marker, positioned at Uluru
+  // var marker = new google.maps.Marker({position: uluru, map: map});
+}
 
 
 function creating_options(){
@@ -13,9 +29,26 @@ function creating_options(){
     }
 }
 
+function findDepCoords() {
+	let airport_code = $('#dep-port-code').val();
+	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
+
+	console.log(url);
+
+	$.ajax(url, {
+		type: 'GET',
+		datatype: 'json',
+		success: (response) => {
+			console.log(response.results);
+			let place = {};
+			place['lat'] = response.results[0]['geometry']['location']['lat'];
+			place['lng'] = response.results[0]['geometry']['location']['lng'];
+			var marker = new google.maps.Marker({position: place, map: map});
+		}
+	});
+}
+
 $(document).ready(function() {
-    //creates age options, 0-100
-    creating_options();
 	$.ajax(root + 'sessions', 
 		{
 		type: 'POST',
@@ -264,12 +297,3 @@ $(document).ready(function() {
         }
 
 });
-
-
-
-
-
-
-
-
-
