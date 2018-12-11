@@ -205,7 +205,7 @@ $(document).ready(function() {
         flyer_info['arr_port_code'] = $('#arr-port-code').val();
 		
        // create airport (if it doesn't exist)
-        //checkAirport(flyer_info);
+        checkAirport(flyer_info);
         
 
 		// debugging prints
@@ -218,7 +218,6 @@ $(document).ready(function() {
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
         mode_one.hide();
         mode_two.show();
-        
 
 		// allow the user to return to the "create itinerary" mode (likely button)
 
@@ -375,30 +374,130 @@ $(document).ready(function() {
 
 	 }
 
-    
-        function createTicket(f){
-            $.ajax(root+'tickets',{
-                   type:'POST',
-                   xhrFields: {withCredentials:true},
-                    data:{
-                        "ticket": {
-                            'first_name': f['flyer_first_name'],
-                            'last_name': f['flyer_last_name'],
-                            'age': parseInt(f['flyer_age']),
-                            'gender': f['flyer_gender']
-                        }
-                    },
-                    success: (response) => {
-				        createReviewMode(f);
-				    },
-				    error: (j, s, response) => {
-				        console.log(response);
-				    }
-                   });
-        }
+    function createTicket(f){
+        $.ajax(root+'tickets',{
+               type:'POST',
+               xhrFields: {withCredentials:true},
+                data:{
+                    "ticket": {
+                        'first_name': f['flyer_first_name'],
+                        'last_name': f['flyer_last_name'],
+                        'age': parseInt(f['flyer_age']),
+                        'gender': f['flyer_gender']
+                    }
+                },
+                success: (response) => {
+			        createReviewMode(f);
+			    },
+			    error: (j, s, response) => {
+			        console.log(response);
+			    }
+               });
+    }
 
 });
 
 function createReviewMode(f) {
-	$('body').children().each().hide();
+	// grab the flight that the user input
+	let flight_url = root + 'flights?filter[departs_at]' + f['dep_time'] + '&filter[arrives_at]=' + f['arr_time'] + '&filter=[number]=' + f['flight_number'];
+	$.ajax(flight_url, {
+		type: 'GET',
+		datatype: 'json',
+		xhrFields: {withCredentials: true},
+		success: function(data) {
+			console.log('asdf');
+			mode_two.append('<h3>Flight ID: '+data[0]['id']+'</h3>');
+			mode_two.append('<h3>Flight Number: '+data[0]['number']+'</h3>');
+			mode_two.append('<h3>Flight Departs: '+data[0]['departs_at']+'</h3>');
+			mode_two.append('<h3>Flight Arrives: '+data[0]['arrives_at']+'</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
+
+	// grab the airports that the user will be flying to/form
+	let arr_url = root + 'airports?filter[code]=' + f['arr_port_code'];
+	let dep_url = root + 'airports?filter[code]=' + f['dep_port_code'];
+	let google_arr_url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + f['arr_port_code'] + '&key=' + google_key;
+	let google_dep_url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + f['dep_port_code'] + '&key=' + google_key;
+
+	// arrival city, state
+	$.ajax(google_arr_url, {
+		type: 'GET',
+		datatype: 'json',
+		success: function(data) {
+			let arr_city = data[0]['address_components'][4]['long_name'];
+			let arr_state = data[0]['address_components'][6]['long_name'];
+			mode_two.append('<h3>Arrival city: ' + arr_city + '</h3>');
+			mode_two.append('<h3>Arrival state: ' + arr_state + '</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
+
+	// arrival airport
+	$.ajax(arr_url, {
+		type: 'GET',
+		datatype: 'json',
+		xhrFields: {withCredentials: true},
+		success: function(data) {
+			let arrival_airport = data[0]['name'];
+			mode_two.append('<h3>Arriving airport: ' + arrival_airport + '</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
+
+	// departure city, state
+	$.ajax(google_dep_url, {
+		type: 'GET',
+		datatype: 'json',
+		success: function(data) {
+			let dep_city = data[0]['address_components'][4]['long_name'];
+			let dep_state = data[0]['address_components'][6]['long_name'];
+			mode_two.append('<h3>Departure city: ' + arr_city + '</h3>');
+			mode_two.append('<h3>Departure state: ' + arr_state + '</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
+
+	// departure airport
+	$.ajax(arr_url, {
+		type: 'GET',
+		datatype: 'json',
+		xhrFields: {withCredentials: true},
+		success: function(data) {
+			let departure_airport = data[0]['name'];
+			mode_two.append('<h3>Departing airport: ' + departure_airport + '</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
+
+	// grab the ticket information
+	let ticket_url = root + 'tickets?filter[first_name]=' + f['flyer_first_name'] + '&filter[last_name]=' + f['flyer_last_name'] + '&filter[age]=' + f['flyer_age'];
+
+	$.ajax(ticket_url, {
+		type: 'GET',
+		datatype: 'json',
+		xhrFields: {withCredentials: true},
+		success: function(data) {
+			let passenger_name = data[0]['first_name'] + ' ' + data[0]['last_name'];
+			let passenger_age = data[0]['age'];
+			let passenger_gender = data[0]['gender'];
+
+			mode_two.append('<h3>Passenger: ' + passenger_name + '</h3>');
+			mode_two.append('<h3>Age: ' + passenger_age + '</h3>');
+			mode_two.append('<h3>Gender: ' + passenger_gender + '</h3>');
+		},
+		error: (j, s, error) => {
+			console.log(error);
+		}
+	});
 }
