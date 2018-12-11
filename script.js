@@ -387,7 +387,6 @@ $(document).ready(function() {
                     }
                 },
                 success: (response) => {
-                	console.log('woohoo');
 			        createReviewMode(f);
 			    },
 			    error: (j, s, response) => {
@@ -410,7 +409,6 @@ function createReviewMode(f) {
 		datatype: 'json',
 		xhrFields: {withCredentials: true},
 		success: function(data) {
-			console.log('asdf');
 			mode_two.append('<h3>Flight ID: '+data[0]['id']+'</h3>');
 			mode_two.append('<h3>Flight Number: '+data[0]['number']+'</h3>');
 			mode_two.append('<h3>Flight Departs: '+data[0]['departs_at']+'</h3>');
@@ -435,8 +433,37 @@ function createReviewMode(f) {
 			// console.log(data.results[0]['address_components'][4]['long_name']);
 			let arr_city = data.results[0]['address_components'][4]['long_name'];
 			let arr_state = data.results[0]['address_components'][6]['long_name'];
+			arr_place['lat'] = data.results[0]['geometry']['location']['lat'];
+			arr_place['lng'] = data.results[0]['geometry']['location']['lng'];
 			mode_two.append('<h3>Arrival city: ' + arr_city + '</h3>');
 			mode_two.append('<h3>Arrival state: ' + arr_state + '</h3>');
+
+				// departure city, state
+			$.ajax(google_dep_url, {
+				type: 'GET',
+				datatype: 'json',
+				success: function(data) {
+					let dep_city = data.results[0]['address_components'][4]['long_name'];
+					let dep_state = data.results[0]['address_components'][6]['long_name'];
+					dep_place['lat'] = data.results[0]['geometry']['location']['lat'];
+					dep_place['lng'] = data.results[0]['geometry']['location']['lng'];
+					mode_two.append('<h3>Departure city: ' + dep_city + '</h3>');
+					mode_two.append('<h3>Departure state: ' + dep_state + '</h3>');
+
+					var flightPath = new google.maps.Polyline({
+						path: [dep_place, arr_place],
+						geodesic: true,
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.5,
+						strokeWeight: 8
+					});
+
+					flightPath.setMap(map);
+				},
+				error: (j, s, error) => {
+					console.log(error);
+				}
+			});
 		},
 		error: (j, s, error) => {
 			console.log(error);
@@ -451,21 +478,6 @@ function createReviewMode(f) {
 		success: function(data) {
 			let arrival_airport = data[0]['name'];
 			mode_two.append('<h3>Arriving airport: ' + arrival_airport + '</h3>');
-		},
-		error: (j, s, error) => {
-			console.log(error);
-		}
-	});
-
-	// departure city, state
-	$.ajax(google_dep_url, {
-		type: 'GET',
-		datatype: 'json',
-		success: function(data) {
-			let dep_city = data.results[0]['address_components'][4]['long_name'];
-			let dep_state = data.results[0]['address_components'][6]['long_name'];
-			mode_two.append('<h3>Departure city: ' + dep_city + '</h3>');
-			mode_two.append('<h3>Departure state: ' + dep_state + '</h3>');
 		},
 		error: (j, s, error) => {
 			console.log(error);
