@@ -411,8 +411,14 @@ function createReviewMode(f) {
 		success: function(data) {
 			mode_two.append('<h3>Flight ID: '+data[0]['id']+'</h3>');
 			mode_two.append('<h3>Flight Number: '+data[0]['number']+'</h3>');
-			mode_two.append('<h3>Flight Departs: '+data[0]['departs_at']+'</h3>');
-			mode_two.append('<h3>Flight Arrives: '+data[0]['arrives_at']+'</h3>');
+			let s = data[0]['departs_at'];
+			match = s.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g);
+			dep_time = match[0];
+			s = data[0]['arrives_at'];
+			match = s.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g);
+			arr_time = match[0];
+			mode_two.append('<h3>Flight Departs: '+dep_time+'</h3>');
+			mode_two.append('<h3>Flight Arrives: '+arr_time+'</h3>');
 		},
 		error: (j, s, error) => {
 			console.log(error);
@@ -430,26 +436,28 @@ function createReviewMode(f) {
 		type: 'GET',
 		datatype: 'json',
 		success: function(data) {
-			// console.log(data.results[0]['address_components'][4]['long_name']);
-			let arr_city = data.results[0]['address_components'][4]['long_name'];
-			let arr_state = data.results[0]['address_components'][6]['long_name'];
+			let address = data.results[0]['formatted_address'];
+			match = address.match(/\b(\w*)\b,\s[A-Z]{2}\s/g);
+			let whole_arr = match[0].replace(/ /g, '');
+			let arr = whole_arr.split(',');
+			mode_two.append('<h3>Arrival City, State: ' + arr[0] + ', ' + arr[1] + '</h3>');
 			arr_place['lat'] = data.results[0]['geometry']['location']['lat'];
 			arr_place['lng'] = data.results[0]['geometry']['location']['lng'];
-			mode_two.append('<h3>Arrival city: ' + arr_city + '</h3>');
-			mode_two.append('<h3>Arrival state: ' + arr_state + '</h3>');
-
-				// departure city, state
+			
+			// departure city, state
 			$.ajax(google_dep_url, {
 				type: 'GET',
 				datatype: 'json',
 				success: function(data) {
-					let dep_city = data.results[0]['address_components'][4]['long_name'];
-					let dep_state = data.results[0]['address_components'][6]['long_name'];
+					let address = data.results[0]['formatted_address'];
+					match = address.match(/\b(\w*)\b,\s[A-Z]{2}\s/g);
+					let whole_dep = match[0].replace(/ /g, '');
+					let dep = whole_dep.split(',');
+					mode_two.append('<h3>Departing City, State: ' + dep[0] + ', ' + dep[1] + '</h3>');
 					dep_place['lat'] = data.results[0]['geometry']['location']['lat'];
 					dep_place['lng'] = data.results[0]['geometry']['location']['lng'];
-					mode_two.append('<h3>Departure city: ' + dep_city + '</h3>');
-					mode_two.append('<h3>Departure state: ' + dep_state + '</h3>');
 
+					// creating the polyline between markers
 					var flightPath = new google.maps.Polyline({
 						path: [dep_place, arr_place],
 						geodesic: true,
