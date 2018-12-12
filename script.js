@@ -21,7 +21,7 @@ function initMap() {
 
 function creating_options(){
     //age dropdown
-    for(var i = 0; i<=120; i++){
+    for(var i = 1; i<=120; i++){
         var opt = document.createElement('option');
         opt.value=i;
         opt.innerHTML=i;
@@ -87,7 +87,7 @@ function codeinputBox(id, bool){
         $('#'+id).css('border-color','initial');
     }else{
         alert('This is not a valid airport code');
-        $('#'+id).css('border-color','red');
+        $('#'+id).css({'border-color':'red', 'border_style':'solid'});
     }
 }
 function validateCode(x){
