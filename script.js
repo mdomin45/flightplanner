@@ -389,16 +389,16 @@ function createReviewMode(f) {
 		datatype: 'json',
 		xhrFields: {withCredentials: true},
 		success: function(data) {
-			$('#review-flight-id').text('Flight ID: ' + data[0]['id']);
-			$('#review-flight-num').text('Flight Number: ' + data[0]['number']);
+			$('#review-flight-id').text(data[0]['id']);
+			$('#review-flight-num').text(data[0]['number']);
 			let s = data[0]['departs_at'];
 			match = s.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g);
 			dep_time = match[0];
 			s = data[0]['arrives_at'];
 			match = s.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g);
 			arr_time = match[0];
-			$('#review-flight-depart-time').text('Time of Departure: ' + dep_time);
-			$('#review-flight-arrive-time').text('Time of Arrival: ' + arr_time);
+			$('#review-flight-depart-time').text(dep_time);
+			$('#review-flight-arrive-time').text(arr_time);
 		},
 		error: (j, s, error) => {
 			console.log(error);
@@ -420,7 +420,7 @@ function createReviewMode(f) {
 			match = address.match(/(\s\w+)+,\s[A-Z]{2}\s/g);
 			let whole_arr = match[0].trim();
 			// let arr = whole_arr.split(',');
-			$('#review-arriving-from').text('Arriving in: ' + whole_arr);
+			$('#review-arriving-in').text(whole_arr);
 			arr_place['lat'] = data.results[0]['geometry']['location']['lat'];
 			arr_place['lng'] = data.results[0]['geometry']['location']['lng'];
 			
@@ -433,7 +433,7 @@ function createReviewMode(f) {
 					match = address.match(/(\s\w+)+,\s[A-Z]{2}\s/g);
 					let whole_dep = match[0].trim();
 					// let dep = whole_dep.split(',');
-					$('#review-departing-from').text('Departing from: ' + whole_dep);
+					$('#review-departing-from').text(whole_dep);
 					dep_place['lat'] = data.results[0]['geometry']['location']['lat'];
 					dep_place['lng'] = data.results[0]['geometry']['location']['lng'];
 
@@ -465,7 +465,7 @@ function createReviewMode(f) {
 		xhrFields: {withCredentials: true},
 		success: function(data) {
 			let arrival_airport = data[0]['name'];
-			$('#review-arrive-port').text('Airport of Arrival: ' + arrival_airport);
+			$('#review-arrive-port').text(arrival_airport);
 		},
 		error: (j, s, error) => {
 			console.log(error);
@@ -479,7 +479,7 @@ function createReviewMode(f) {
 		xhrFields: {withCredentials: true},
 		success: function(data) {
 			let departure_airport = data[0]['name'];
-			$('#review-depart-port').text('Airport of Departure: ' + departure_airport);
+			$('#review-depart-port').text(departure_airport);
 		},
 		error: (j, s, error) => {
 			console.log(error);
@@ -498,9 +498,9 @@ function createReviewMode(f) {
 			let passenger_age = data[0]['age'];
 			let passenger_gender = data[0]['gender'];
 
-			$('#review-passenger-name').text('Name: ' + passenger_name);
-			$('#review-age').text('Age: ' + passenger_age);
-			$('#review-gender').text('Gender: ' + passenger_gender);
+			$('#review-passenger-name').text(passenger_name);
+			$('#review-age').text(passenger_age);
+			$('#review-gender').text(passenger_gender);
 		},
 		error: (j, s, error) => {
 			console.log(error);

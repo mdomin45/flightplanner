@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>Final Project</title>
-	
+	 <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:700" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel='stylesheet' type='text/css' href="style.css">
@@ -20,25 +21,25 @@
 		<form class="flight-form">
 			<div id="passenger-info">
 				<h3 id='passenger-title'>Passenger Info</h3>
-				<p id='one'>First Name:</p><input type="text" id="first-name" required><br>
-				<p id='two'>Last Name:</p><input type="text" id="last-name" required><br>
-				<p id='three'>Email:</p><input type="text" id="email" required><br>
+				<p id='one'>First Name:</p><input type="text" id="first-name" value='ahram' required><br>
+				<p id='two'>Last Name:</p><input type="text" id="last-name" value='cho' required><br>
+				<p id='three'>Email:</p><input type="text" id="email" value='ahram' required><br>
 				<p id='four'>Age:</p><select id='age'></select><br>
-				<p id='five'>Gender:</p><input type="text" id="gender" required><br>
+				<p id='five'>Gender:</p><input type="text" id="gender" value ='male' required><br>
 			</div>
 			<div id="flight">
 				<h3 id='flight-title'>Your Flight</h3>
-				<p id='six'>Flight Number:</p><input type="text" id="flight-num" required><br>
-				<p id='seven'>Departure Time:</p><input type="time" id="dep-time" required><br>
-				<p id='eight'>Arrival Time:</p><input type="time" id="arr-time" required><br>
+				<p id='six'>Flight Number:</p><input type="text" id="flight-num" value='aa' required><br>
+				<p id='seven'>Departure Time:</p><input type="time" id="dep-time" value='00:00' required><br>
+				<p id='eight'>Arrival Time:</p><input type="time" id="arr-time" value ='00:00' required><br>
 				<!---Departing airport code: <input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>--->
-				<p id='nine'>Departing Airport Code:</p><input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" required><br>
+				<p id='nine'>Departing Airport Code:</p><input type="text" id="dep-port-code" list='huge_list' onblur="validateCode(this)" value='RDU' required><br>
 				<!--Extra code: <input type='text' name='name' id='name_input'  onblur='validateCode(this)'>-->
 				            <datalist id='huge_list'>
 				                
 				            </datalist>
 				<!--Arriving airport code: <input type="text" id="arr-port-code" onblur="validateCode(this)" required><br>-->
-				<p id='ten'>Arriving Airport Code:</p><input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" required><br>
+				<p id='ten'>Arriving Airport Code:</p><input type="text" id="arr-port-code" list='huge_list' onblur="validateCode(this)" value='JFK' required><br>
 				<button type="button" id="submit-flight-info">SUBMIT</button><br>
 			</div>
 			
@@ -48,23 +49,29 @@
 	</div>
 	
 	<div class='infographic mode_two' style='display:none;'>
-	<h3>Your Flight</h3>
+	<h1>Overview</h1>
 	<div class="review-flight-info">
-		<h3>Passenger Info</h3>
-		<p id="review-passenger-name"></p><br>
-		<p id="review-age"></p><br>
-		<p id="review-gender"></p><br>
-		<h3>Flight Info</h3>
-		<p id="review-departing-from"></p><br>
-		<p id="review-depart-port"></p><br>
-		<p id="review-arriving-in"></p><br>
-		<p id="review-arrive-port"></p><br>
-		<p id="review-flight-depart-time"></p><br>
-		<p id="review-flight-arrive-time"></p><br>
-		<p id="review-flight-id"></p><br>
-		<p id="review-flight-num"></p><br>
+	    <div id='passenger'>
+		<h3 id='p-title'>Passenger Info <i class="far fa-address-card"></i></h3>
+		<p id='a' class='left'>Name:</p><p id="review-passenger-name" class='right'></p>
+		<p id='b' class='left'>Age:</p><p id="review-age" class='right'></p>
+		<p id='c' class='left'>Gender:</p><p id="review-gender" class='right'></p>
+		</div>
+		<div id='flight_information'>
+		<h3 id='f-title'>Flight Info <i class="fas fa-plane"></i></h3>
+		<p id='d' class='left'>Flight Number:</p><p id="review-flight-num" class='right'></p>
+		<p id='e' class='left'>Flight ID:</p><p id="review-flight-id" class='right'></p>
+		<p id='f' class='left'>Time of Departure:</p><p id="review-flight-depart-time" class='right'></p>
+		<p id='g' class='left'>Departing from <i class="fas fa-plane-departure"></i>:</p><p id="review-departing-from" class='right'></p>
+		<p id='h' class='left'>Airport of Departure:</p><p id="review-depart-port" class='right'></p>
+		<p id='i' class='left'>Time of Arrival:</p><p id="review-flight-arrive-time" class='right'></p>
+		<p id='j' class='left'>Arriving in <i class="fas fa-plane-arrival"></i>:</p><p id="review-arriving-in" class='right'></p>
+		<p id='k' class='left'>Airport of Arrival:</p><p id="review-arrive-port" class='right'></p>
+		
+		</div>
+		<div id="map" style="clear: both; width: 100%; height:60vh; margin: auto auto;"></div>
 	</div>
-	<div id="map" style="clear: both; height: 500px; width: 600px; top: 50px;"></div>
+	
 	</div>
 
 </body>

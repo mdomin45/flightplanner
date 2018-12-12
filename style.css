@@ -24,6 +24,7 @@ body{
     background-color: rgba(255, 255, 255, 0.85);
     border-radius:1em;
     padding:1vw;
+    margin-bottom: 20vh;
     font-size:1.5vw;
 }
 
@@ -44,7 +45,7 @@ select{
 .flight-info h3{
     text-align: center;
 }
-p{
+.mode_one p{
     text-align: right;
     margin-right:1vw;
 }
@@ -114,7 +115,98 @@ p{
 }
 
 
+
+
+/*mode two*/
+.review-flight-info{
+    display:grid;
+    grid-template-columns: 3fr 5fr;
+    grid-template-rows: 70vh 50vh;
+    grid-template-areas:'passenger map'
+                        'flight_information flight_information';
+}
+
+#passenger{grid-area:passenger;}
+#flight_information{grid-area: flight_information;}
+#map{grid-area:map;}
+.mode_two h1{
+    text-align: center;
+    color:white;
+    font-size: 10vh;
+    margin-bottom: 0;
+}
+.mode_two h3{
+    text-align: center;
+    font-size: 7vh;
+    border-bottom-style: solid;
+    margin-bottom:0;
+}
+
+#passenger, #flight_information{
+    width:90%;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius:1em;
+    padding:1vw;
+    margin:auto auto;
+}
+.mode_two p{display:inline-block;}
+.left{text-align: right;}
+.right{text-align: left;margin-left:1em;}
+
+#p-title{grid-area:p-title;}
+#f-title{grid-area:f-title;}
+#a{grid-area:a;}
+#b{grid-area:b;}
+#c{grid-area:c;}
+#d{grid-area:d;}
+#e{grid-area:e;}
+#g{grid-area:g;}
+#h{grid-area:h;}
+#i{grid-area:i;}
+#j{grid-area:j;}
+#k{grid-area:k;}
+#review-passenger-name{grid-area:aa;}
+#review-age{grid-area:bb;}
+#review-gender{grid-area:cc;}
+#review-flight-num{grid-area:dd;}
+#review-flight-id{grid-area: ee;}
+#review-flight-depart-time{grid-area:ff;}
+#review-departing-from{grid-area:gg;}
+#review-depart-port{grid-area:hh;}
+#review-flight-arrive-time{grid-area:ii;}
+#review-arriving-in{grid-area:jj;}
+#review-arrive-port{grid-area:kk;}
+
+#passenger{
+    font-size:4vh;
+    display:grid;
+    grid-template-columns:1fr 3fr;
+    grid-template-rows: 30vh 10vh 10vh 10vh;
+    grid-template-areas:'p-title p-title'
+                        'a aa'
+                        'b bb'
+                        'c cc';
+}
+
+
+#flight_information{
+    font-size:4.5vh;
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 20vh 10vh 10vh 10vh 15vh 15vh 10vh 15vh 15vh;
+    grid-template-areas:'f-title f-title'
+                        'd dd'
+                        'e ee'
+                        'f ff'
+                        'g gg'
+                        'h hh'
+                        'i ii'
+                        'j jj'
+                        'k kk';
+}
+
 @media (max-width:900px){
+    /*mode one*/
     .form-holder{width:80%;}
     .body{width:100%;}
     .flight-info h1{
@@ -124,11 +216,24 @@ p{
     input,select,#submit-flight-info{
         font-size:2vh;
     }
+    
+    /*mode two*/
+    .review-flight-info{
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 3fr;
+    grid-template-areas:'passenger'
+                        'map'
+                        'flight_information';
 }
-
-.mode_two h3 {
-	color: white;
-	border: 1px black;
-	position: relative;
-	top: 30px;
+    #flight_information{
+        font-size:2vh;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+}
+@media(max-width:500px){
+    #flight_information{
+        grid-template-rows: 30vh 10vh 10vh 10vh 15vh 15vh 10vh 15vh 15vh;
+    }
 }
