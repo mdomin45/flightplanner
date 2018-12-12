@@ -219,21 +219,32 @@ select{
     
     /*mode two*/
     .review-flight-info{
+    
     display:grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 3fr;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-row-gap: 1em;
     grid-template-areas:'passenger'
                         'map'
                         'flight_information';
 }
     #flight_information{
-        font-size:2vh;
+        font-size:4vw;
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto auto auto auto auto auto;
     }
     
 }
 @media(max-width:500px){
+    #passenger{
+        font-size:3vh;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: auto auto auto auto
+    }
+    #passenger h3{
+        font-size:5vh;
+    }
     #flight_information{
-        grid-template-rows: 30vh 10vh 10vh 10vh 15vh 15vh 10vh 15vh 15vh;
+        grid-template-rows: auto auto auto auto auto auto auto auto auto;
     }
 }
