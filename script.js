@@ -6,7 +6,8 @@ var mode_two;
 var map;
 var dep_port_id;
 var arr_port_id;
-
+var markers = [];
+var flightPath;
 function initMap() {
   // The location of center of US
   var start = {lat: 39.8333333, lng: -98.585522};
@@ -17,7 +18,21 @@ function initMap() {
       	center: start
       });
 }
-
+function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+}
+function clearMarkers() {
+        setMapOnAll(null);
+}
+function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+}
+function removeLine() {
+        flightPath.setMap(null);
+}
 function creating_options(){
     //age dropdown
     for(var i = 1; i<=120; i++){
@@ -28,7 +43,7 @@ function creating_options(){
     }
 }
 
-function findCoords(x){
+/*function findCoords(x){
     let airport_code = x;
 	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
 
@@ -46,15 +61,17 @@ function findCoords(x){
            
 		}
 	});
-}
+}*/
 
 //change border of input box
 function codeinputBox(id, bool){
     if(bool){
         $('#'+id).css('border-color','initial');
+        $('#'+id).css('border-style','none');
     }else{
         alert('This is not a valid airport code');
-        $('#'+id).css({'border-color':'red', 'border_style':'solid'});
+        $('#'+id).css('border-color','red');
+        $('#'+id).css('border-style','solid');
     }
 }
 
@@ -71,7 +88,6 @@ function validateCode(x){
             console.log(data);
             if(data['response'].length > 0){
                 codeinputBox(x.getAttribute('id'), true);
-                findCoords(x.value);
             } else{
                 codeinputBox(x.getAttribute('id'), false);
             }
@@ -148,9 +164,14 @@ $(document).ready(function() {
     //Holds html elements for form
     mode_one = $('.mode_one');
     mode_two = $('.mode_two');
+    
+    $('#form1').submit(function(){
+        change_mode();
+        return false;
+    });
 
 	// user submits the flight info
-	$('#submit-flight-info').click(function() {
+	function change_mode() {
 		// collect the input data and assign variables
 		let num_flights = $('#num-flights').val();
 		let flyer_info = {}; // dictionary containing all information given in the form
@@ -201,7 +222,23 @@ $(document).ready(function() {
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
         mode_one.hide();
         mode_two.show();
-	});
+        return false;
+	}
+    
+    
+    
+    $('#restart').click(function(){
+        //Text in mode 2
+        $('.right').text('');
+        //Markers on map
+        deleteMarkers();
+        //Polyline on map
+        removeLine();
+        $('#form1').trigger('reset');
+        mode_two.hide();
+        mode_one.show();
+        
+    });
 
     //c is the code, n is the name, 1 is departure 2 is arrival
     //check if airport for departure exists, if not create one, then check if airport of arrival exists, if not create one, take airport ids and make flight
@@ -423,7 +460,9 @@ function createReviewMode(f) {
 			$('#review-arriving-in').text(whole_arr);
 			arr_place['lat'] = data.results[0]['geometry']['location']['lat'];
 			arr_place['lng'] = data.results[0]['geometry']['location']['lng'];
-			
+            var marker1 = new google.maps.Marker({position: arr_place, map: map});
+			markers.push(marker1);
+            
 			// departure city, state
 			$.ajax(google_dep_url, {
 				type: 'GET',
@@ -436,9 +475,11 @@ function createReviewMode(f) {
 					$('#review-departing-from').text(whole_dep);
 					dep_place['lat'] = data.results[0]['geometry']['location']['lat'];
 					dep_place['lng'] = data.results[0]['geometry']['location']['lng'];
-
+                    var marker2 = new google.maps.Marker({position: dep_place, map: map});
+                    markers.push(marker2);
+                    
 					// creating the polyline between markers
-					var flightPath = new google.maps.Polyline({
+					    flightPath = new google.maps.Polyline({
 						path: [dep_place, arr_place],
 						geodesic: true,
 						strokeColor: '#FF0000',

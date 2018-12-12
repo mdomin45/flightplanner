@@ -41,6 +41,7 @@ select{
     width:50%;
     padding-left:7vw;
 }
+#dep-time, #arr-time{padding-right:1em;}
 
 .flight-info h3{
     text-align: center;
@@ -102,14 +103,18 @@ select{
 
 #submit-flight-info{
     grid-area:submit;
+}
+button{
     background-color: red;
     color:white;
     font-size:3vw;
     margin:0 auto;
-    width:90%;
+    width:100%;
+    border-radius: 2em;
     box-shadow: 2px 5px rgba(0,0,0,0.85);
+    margin-bottom: 1em;
 }
-#submit-flight-info:hover{
+button:hover{
     background-color: coral;
     box-shadow: 2px 5px rgba(0,0,0,0.55);
 }
