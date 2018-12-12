@@ -222,7 +222,7 @@ $(document).ready(function() {
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
         mode_one.hide();
         mode_two.show();
-        return false;
+        $('html,body').scrollTop(0);
 	}
     
     
