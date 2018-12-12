@@ -18,7 +18,6 @@ function initMap() {
       });
 }
 
-
 function creating_options(){
     //age dropdown
     for(var i = 1; i<=120; i++){
@@ -28,39 +27,6 @@ function creating_options(){
         document.getElementById('age').appendChild(opt);
     }
 }
-
-/*function findDepCoords() {
-	let airport_code = $('#dep-port-code').val();
-	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
-	console.log(url);
-	$.ajax(url, {
-		type: 'GET',
-		datatype: 'json',
-		success: (response) => {
-			console.log(response.results);
-			let place = {};
-			place['lat'] = response.results[0]['geometry']['location']['lat'];
-			place['lng'] = response.results[0]['geometry']['location']['lng'];
-			var marker = new google.maps.Marker({position: place, map: map});
-		}
-	});
-}
-function findArrCoords() {
-	let airport_code = $('#arr-port-code').val();
-	let url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+airport_code+'&key='+google_key
-	console.log(url);
-	$.ajax(url, {
-		type: 'GET',
-		datatype: 'json',
-		success: (response) => {
-			console.log(response.results);
-			let place = {};
-			place['lat'] = response.results[0]['geometry']['location']['lat'];
-			place['lng'] = response.results[0]['geometry']['location']['lng'];
-			var marker = new google.maps.Marker({position: place, map: map});
-		}
-	});
-}*/
 
 function findCoords(x){
     let airport_code = x;
@@ -81,6 +47,7 @@ function findCoords(x){
 		}
 	});
 }
+
 //change border of input box
 function codeinputBox(id, bool){
     if(bool){
@@ -90,6 +57,7 @@ function codeinputBox(id, bool){
         $('#'+id).css({'border-color':'red', 'border_style':'solid'});
     }
 }
+
 function validateCode(x){
     let airport_code=x.value;
     let url='https://cors-anywhere.herokuapp.com/'+'http://iatacodes.org/api/v6/airports?api_key=7696a162-f86a-4dfe-898b-93b5320c6818&lang=en&code='+airport_code;
@@ -198,32 +166,44 @@ $(document).ready(function() {
         flyer_info['flight_number'] = $('#flight-num').val();
         flyer_info['dep_time'] = $('#dep-time').val();
         flyer_info['arr_time'] = $('#arr-time').val();
-        flyer_info['seat'] = $('#seat').val();
-        flyer_info['dep_port'] = $('#dep-port').val();
         flyer_info['dep_port_code'] = $('#dep-port-code').val();
-        flyer_info['arr_port'] = $('#arr-port').val();
         flyer_info['arr_port_code'] = $('#arr-port-code').val();
-		
-       // create airport (if it doesn't exist)
-        checkAirport(flyer_info);
-        
 
-		// debugging prints
-		//str = JSON.stringify(flyer_info); // creates a loggable string from the dict
-		//console.log(str); // logging the dict
+        let dep_airport_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+$('#dep-port-code').val()+'&key='+google_key;
+        let arr_airport_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+$('#arr-port-code').val()+'&key='+google_key;
 
-        //createTicket(flyer_info);
-		// grab the weather, map information from 3rd-party APIs
+        // get airport names based on codes
+        $.ajax(dep_airport_url, {
+        	type: 'GET',
+        	datatype: 'json',
+        	success: function(data) {
+        		let address = data.results[0]['formatted_address'];
+        		match = address.match(/^[^\(]+/g);
+        		console.log('Match 0: ', match[0], typeof(match[0]));
+        		flyer_info['dep_port'] = match[0];
+
+        		$.ajax(arr_airport_url, {
+        			type: 'GET',
+        			datatype: 'json',
+        			success: function(data) {
+        				address = data.results[0]['formatted_address'];
+        				match = address.match(/^[^\(]+/g);
+        				console.log('Match 0: ', match[0]);
+        				flyer_info['arr_port'] = match[0];
+        				console.log(flyer_info['arr_port'], flyer_info['dep_port']);
+
+        				checkAirport(flyer_info);
+        			}
+        		});
+        	}
+        });
 
 		// change the mode to "review" mode (weather, maps, itinerary formatted, etc.)
         mode_one.hide();
         mode_two.show();
-
-		// allow the user to return to the "create itinerary" mode (likely button)
-
-
 	});
-    //c is the code, n is the name, 1 is departure 2 is arrival)
+
+    //c is the code, n is the name, 1 is departure 2 is arrival
     //check if airport for departure exists, if not create one, then check if airport of arrival exists, if not create one, take airport ids and make flight
 	function checkAirport(f) {
 		$.ajax(root + 'airports?filter[code]='+f['dep_port_code'], {
@@ -437,10 +417,10 @@ function createReviewMode(f) {
 		datatype: 'json',
 		success: function(data) {
 			let address = data.results[0]['formatted_address'];
-			match = address.match(/\b(\w*)\b,\s[A-Z]{2}\s/g);
-			let whole_arr = match[0].replace(/ /g, '');
+			match = address.match(/(\s\w+)+,\s[A-Z]{2}\s/g);
+			let whole_arr = match[0].trim();
 			let arr = whole_arr.split(',');
-			mode_two.append('<h3>Arrival City, State: ' + arr[0] + ', ' + arr[1] + '</h3>');
+			mode_two.append('<h3>Arriving in: ' + arr[0] + ', ' + arr[1] + '</h3>');
 			arr_place['lat'] = data.results[0]['geometry']['location']['lat'];
 			arr_place['lng'] = data.results[0]['geometry']['location']['lng'];
 			
@@ -450,10 +430,10 @@ function createReviewMode(f) {
 				datatype: 'json',
 				success: function(data) {
 					let address = data.results[0]['formatted_address'];
-					match = address.match(/\b(\w*)\b,\s[A-Z]{2}\s/g);
-					let whole_dep = match[0].replace(/ /g, '');
+					match = address.match(/(\s\w+)+,\s[A-Z]{2}\s/g);
+					let whole_dep = match[0].trim();
 					let dep = whole_dep.split(',');
-					mode_two.append('<h3>Departing City, State: ' + dep[0] + ', ' + dep[1] + '</h3>');
+					mode_two.append('<h3>Departing from: ' + dep[0] + ', ' + dep[1] + '</h3>');
 					dep_place['lat'] = data.results[0]['geometry']['location']['lat'];
 					dep_place['lng'] = data.results[0]['geometry']['location']['lng'];
 
@@ -493,7 +473,7 @@ function createReviewMode(f) {
 	});
 
 	// departure airport
-	$.ajax(arr_url, {
+	$.ajax(dep_url, {
 		type: 'GET',
 		datatype: 'json',
 		xhrFields: {withCredentials: true},
